@@ -60,3 +60,61 @@ export const useGetApiInsuranceForms = <
 
   return query
 }
+
+export const postApiInsuranceFormsSubmit = (
+  InsuranceFormsSubmitModel: any,
+  options?: SecondParameter<typeof customInstance>,
+) => {
+  return customInstance<any>(
+    {
+      url: `/api/insurance/forms/submit`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json-patch+json' },
+      data: InsuranceFormsSubmitModel,
+    },
+    options,
+  )
+}
+
+export const getPostApiInsuranceFormsSubmitMutationOptions = <TError = string, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postApiInsuranceFormsSubmit>>,
+    TError,
+    { data: any },
+    TContext
+  >
+  request?: SecondParameter<typeof customInstance>
+}): UseMutationOptions<Awaited<ReturnType<typeof postApiInsuranceFormsSubmit>>, TError, { data: any }, TContext> => {
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postApiInsuranceFormsSubmit>>,
+    { data: any }
+  > = props => {
+    const { data } = props ?? {}
+
+    return postApiInsuranceFormsSubmit(data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostApiInsuranceFormsSubmitMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiInsuranceFormsSubmit>>
+>
+export type PostApiInsuranceFormsSubmitMutationBody = any
+export type PostApiInsuranceFormsSubmitMutationError = string
+
+export const usePostApiInsuranceFormsSubmit = <TError = string, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postApiInsuranceFormsSubmit>>,
+    TError,
+    { data: any },
+    TContext
+  >
+  request?: SecondParameter<typeof customInstance>
+}): UseMutationResult<Awaited<ReturnType<typeof postApiInsuranceFormsSubmit>>, TError, { data: any }, TContext> => {
+  const mutationOptions = getPostApiInsuranceFormsSubmitMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}

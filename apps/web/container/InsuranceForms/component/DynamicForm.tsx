@@ -4,6 +4,8 @@ import { FieldGroup } from './FieldGroup'
 import { FormField } from './FormField'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { usePostApiInsuranceFormsSubmit } from '../../../services/insurance-service/installment.service'
+import toast from 'react-hot-toast'
 
 type DynamicFormProps = {
   schema: FormSchema
@@ -29,13 +31,14 @@ const buildYupSchema = (fields: FormFieldType[]): yup.AnyObjectSchema => {
 
         if (field.type === 'number') {
           validator = yup.number().typeError('Must be a number')
+          if (field.validation?.min !== undefined) {
+            validator = validator.min(field.validation.min, `Minimum value is ${field.validation.min}`)
+          }
+          if (field.validation?.max !== undefined) {
+            validator = validator.max(field.validation.max, `Maximum value is ${field.validation.max}`)
+          }
         }
-        if (field.validation?.min !== undefined) {
-          validator = validator.min(field.validation.min, `Minimum value is ${field.validation.min}`)
-        }
-        if (field.validation?.max !== undefined) {
-          validator = validator.max(field.validation.max, `Maximum value is ${field.validation.max}`)
-        }
+
         if (field.validation?.pattern) {
           validator = validator.matches(new RegExp(field.validation.pattern), 'Invalid format')
         }
@@ -63,6 +66,7 @@ const buildYupSchema = (fields: FormFieldType[]): yup.AnyObjectSchema => {
 }
 
 export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
+  const { mutateAsync: postInsuranceFormsSubmit } = usePostApiInsuranceFormsSubmit()
   const yupSchema = buildYupSchema(schema.fields)
   const formProvider = useForm({
     resolver: yupResolver(yupSchema),
@@ -73,11 +77,16 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
     handleSubmit,
     control,
     watch,
-    formState: { isValid, errors },
+    formState: { errors },
   } = formProvider
 
   const onSubmit = (data: any) => {
-    console.log('Submitted:', data)
+    postInsuranceFormsSubmit({ data }).then(response => {
+      if (response.status === 'success') {
+        toast.success(response.message, { duration: 6000, className: 'top-20' })
+        formProvider.reset({})
+      }
+    })
   }
 
   const allValues = watch()

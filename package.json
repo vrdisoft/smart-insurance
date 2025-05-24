@@ -15,9 +15,9 @@
     "@repo/eslint-config": "workspace:*",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
-    "lint-staged": "^15.2.7",
     "turbo": "^2.5.3",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "lint-staged": "^16.0.0"
   },
   "engines": {
     "node": ">=18"
@@ -28,6 +28,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "lint-staged": "^16.0.0"
+    
   }
 }

@@ -18,5 +18,5 @@ export const InsuranceForms = ({ insuranceType }: InsuranceFormsProps) => {
       </div>
     )
   }
-  return <section className="">{schema && <DynamicForm schema={schema} />}</section>
+  return <section className="">{schema && <DynamicForm schema={schema as any} />}</section>
 }
