@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import '../styles/globals.css'
+import '../public/assets/fontello/css/fontello.css'
 import { ClientLayout } from './clientLayout'
 
 export const metadata: Metadata = {
