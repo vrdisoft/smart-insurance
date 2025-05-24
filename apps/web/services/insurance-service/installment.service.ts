@@ -14,7 +14,7 @@ import { customInstance } from '../../utils/custom-instance'
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getApiInsuranceForms = (options?: SecondParameter<typeof customInstance>, signal?: AbortSignal) => {
-  return customInstance<InsuranceForms>({ url: `/api/insurance/forms`, method: 'GET', signal }, options)
+  return customInstance<InsuranceForms[]>({ url: `/api/insurance/forms`, method: 'GET', signal }, options)
 }
 
 export const getGetApiInsuranceFormsQueryKey = () => {

@@ -1,20 +1,12 @@
 'use client'
 import { Controller, ControllerProps, useFormContext } from 'react-hook-form'
 
-import { Input, InputProps } from './Input'
+import { RadioGroup, RadioGroupProps } from './RadioGroup'
 
-export const InputController = (
-  props: InputProps & Pick<ControllerProps, 'name' | 'rules' | 'defaultValue' | 'control'>,
+export const RadioGroupController = (
+  props: RadioGroupProps & Pick<ControllerProps, 'name' | 'rules' | 'defaultValue' | 'control'>,
 ): React.ReactNode => {
-  const {
-    name,
-    rules,
-    defaultValue,
-    onBlur: onBlurProps,
-    onChange: onChangeProps,
-    control: controlProp,
-    ...rest
-  } = props
+  const { name, rules, defaultValue, onBlur: onBlurProps, control: controlProp, ...rest } = props
   //const { control } = useFormContext()
 
   return (
@@ -24,11 +16,9 @@ export const InputController = (
       rules={rules}
       defaultValue={defaultValue}
       render={({ field: { onBlur, onChange, value } }) => (
-        <Input
-          onChange={val => {
-            onChangeProps?.(value)
-            onChange(val)
-          }}
+        <RadioGroup
+          name={name}
+          onChange={val => onChange(val)}
           value={value}
           onBlur={e => {
             onBlur()

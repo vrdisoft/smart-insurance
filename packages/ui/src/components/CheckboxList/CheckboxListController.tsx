@@ -1,10 +1,10 @@
 'use client'
 import { Controller, ControllerProps, useFormContext } from 'react-hook-form'
 
-import { Input, InputProps } from './Input'
+import { CheckboxList, CheckboxListProps } from './CheckboxList'
 
-export const InputController = (
-  props: InputProps & Pick<ControllerProps, 'name' | 'rules' | 'defaultValue' | 'control'>,
+export const CheckboxListController = (
+  props: CheckboxListProps & Pick<ControllerProps, 'name' | 'rules' | 'defaultValue' | 'control'>,
 ): React.ReactNode => {
   const {
     name,
@@ -24,10 +24,10 @@ export const InputController = (
       rules={rules}
       defaultValue={defaultValue}
       render={({ field: { onBlur, onChange, value } }) => (
-        <Input
+        <CheckboxList
           onChange={val => {
-            onChangeProps?.(value)
             onChange(val)
+            onChangeProps?.(val)
           }}
           value={value}
           onBlur={e => {

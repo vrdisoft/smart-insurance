@@ -14,6 +14,7 @@
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.1.7",
     "@tanstack/react-query": "^5.66.0",
+    "@hookform/resolvers":"^5.0.1",
     "axios": "^1.7.2",
     "next": "^15.3.0",
     "postcss": "^8.5.3",
@@ -25,7 +26,10 @@
     "sass": "^1.77.6",
     "tailwindcss": "^4.1.7",
     "yup": "^1.4.0",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "react-multi-date-picker": "^4.5.2",
+    "react-date-object": "^2.1.9"
+
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

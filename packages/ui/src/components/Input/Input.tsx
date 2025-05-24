@@ -45,13 +45,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       placeholder,
       hasError,
       required,
-      value,
+      value = '',
       defaultValue,
       error,
       disabled,
-      textAlign = 'right',
+      textAlign = 'left',
       height = 'h-11 md:h-12',
-      backgroundColor = 'bg-white',
+      backgroundColor = '',
       hint,
       hasBorder = true,
       autoFocus = false,
@@ -75,14 +75,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <div className={cn(`${labelFont} w-fit ${labelClass} `)}>
             {label}
-            {labelRequired && <span className="text-error-500 pr-[2px]">*</span>}
+            {labelRequired && <span className="text-red-500 pr-[2px]">*</span>}
           </div>
         )}
 
         <div className={`relative w-full `}>
           <div
             className={cn(
-              `flex items-center  ${hasBorder ? 'border border-neutral-200 rounded-lg' : 'border-0'} ${disabled ? ' cursor-not-allowed bg-neutral-50' : backgroundColor} ${error ? 'border border-error-500' : ''}`,
+              `flex items-center  ${hasBorder ? 'border border-gray-200 rounded-lg' : 'border-0'} ${disabled ? ' cursor-not-allowed bg-gray-50' : backgroundColor} ${error ? 'border border-red-500' : ''}`,
             )}
           >
             <input
@@ -91,11 +91,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 onChange?.(e)
               }}
               placeholder={placeholder}
-              className={cn(`w-full p-2 rounded-lg h-full outline-none placeholder:text-neutral-500 text-body-sm-1 placeholder:${placeholderFont}
+              className={cn(`w-full p-2 rounded-lg h-full outline-none placeholder:text-gray-500 text-body-sm-1 placeholder:${placeholderFont}
             ${height}
             ${className}
             ${hasError ? 'border-red-500' : ''}
-            ${disabled ? ' cursor-not-allowed bg-neutral-50' : backgroundColor}
+            ${disabled ? ' cursor-not-allowed bg-gray-50' : backgroundColor}
             ${textAlign === 'left' ? 'text-left' : ''}
             ${textAlign === 'right' ? 'text-right' : ''}
             ${textAlign === 'center' ? 'text-center' : ''}
@@ -111,7 +111,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {after && value && (
               <div
                 className={cn(
-                  `px-2 text-neutral-700 text-body-base ${afterClassName} ${disabled ? ' cursor-not-allowed bg-neutral-50' : backgroundColor}`,
+                  `px-2 text-gray-700 text-body-base ${afterClassName} ${disabled ? ' cursor-not-allowed bg-gray-50' : backgroundColor}`,
                 )}
               >
                 {after}
@@ -119,10 +119,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
           </div>
           {error && (
-            <div className={`md:absolute block h-4 text-error-500 mt-2 mr-2 text-body-xxs`}>{error ? error : ''}</div>
+            <div className={`md:absolute block h-4 text-red-500 mt-2 mr-2 text-body-xxs`}>{error ? error : ''}</div>
           )}
           {hint && (
-            <div className={`md:absolute block h-4 text-success-700 mt-2 mr-2 text-body-xs`}>
+            <div className={`md:absolute block h-4 text-green-700 mt-2 mr-2 text-body-xs`}>
               {hint && !error ? hint : ''}
             </div>
           )}

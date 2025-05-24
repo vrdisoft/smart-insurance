@@ -1,3 +1,17 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 @custom-variant dark (&:where(.dark, .dark *));
+
+
+  .rmdp-container {
+    width: 100% !important;
+    outline: 0;
+    border-radius: 8px !important;
+    height: 48px !important;
+    
+    
+  }
+
+  .rmdp-arrow-container {
+    padding-top: 2px !important;
+  }
