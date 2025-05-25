@@ -9,7 +9,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import { InsuranceForms } from './insurance.schemas'
+import { InsuranceForms, InsuranceFormsSubmissions } from './insurance.schemas'
 import { customInstance } from '../../utils/custom-instance'
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
@@ -117,4 +117,60 @@ export const usePostApiInsuranceFormsSubmit = <TError = string, TContext = unkno
   const mutationOptions = getPostApiInsuranceFormsSubmitMutationOptions(options)
 
   return useMutation(mutationOptions)
+}
+
+export const getApiInsuranceFormsSubmissions = (
+  options?: SecondParameter<typeof customInstance>,
+  signal?: AbortSignal,
+) => {
+  return customInstance<InsuranceFormsSubmissions>(
+    { url: '/api/insurance/forms/submissions', method: 'GET', signal },
+    options,
+  )
+}
+
+export const getGetApiInsuranceFormsSubmissionsQueryKey = () => {
+  return [`/api/insurance/forms/submissions`] as const
+}
+
+export const getGetApiInsuranceFormsSubmissionsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>,
+  TError = string,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>, TError, TData>>
+  request?: SecondParameter<typeof customInstance>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetApiInsuranceFormsSubmissionsQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>> = ({ signal }) =>
+    getApiInsuranceFormsSubmissions(requestOptions, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetApiInsuranceFormsSubmissionsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>
+>
+export type GetApiInsuranceFormsSubmissionsQueryError = string
+
+export const useGetApiInsuranceFormsSubmissions = <
+  TData = Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>,
+  TError = string,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiInsuranceFormsSubmissions>>, TError, TData>>
+  request?: SecondParameter<typeof customInstance>
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetApiInsuranceFormsSubmissionsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
 }

@@ -1,4 +1,10 @@
+import { Applications } from '../../../container/Applications'
+
 const Home = () => {
-  return <section className="">Applications</section>
+  return (
+    <section>
+      <Applications />
+    </section>
+  )
 }
 export default Home

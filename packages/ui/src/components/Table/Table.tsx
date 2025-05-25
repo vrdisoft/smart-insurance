@@ -80,7 +80,11 @@ const Table = forwardRef(function <TData>(
   const [tableHeight, setTableHeight] = useState('')
   const visibleColumns = columns.filter(col => col.visible !== false)
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper()
-  const [tempData, setTempData] = useState<TData[]>(() => [...data])
+  const [tempData, setTempData] = useState<TData[]>([])
+
+  useEffect(() => {
+    setTempData([...data])
+  }, [data])
 
   const table = useReactTable({
     data: tempData,
@@ -294,13 +298,14 @@ const Table = forwardRef(function <TData>(
       <div className="h-2" />
       <div className={`${isBigScreen && 'h-[calc(100%-60px)]'} `}>
         <div className="flex justify-between px-2">
-          <div className="flex items-center gap-3">{actionBar?.()}</div>
           <div className="flex pl-2">
-            <div className="flex items-center gap-2">
-              <span>تعداد نتایج:</span>
-              <span>{rowCount}</span>
+            <div className="flex items-center">
+              <i
+                className="icon-setting-4 text-body-icon-lg cursor-pointer"
+                onClick={() => setShowColumnSidebar(true)}
+              />
             </div>
-            <div />
+
             <div className="w-0.5 h-full bg-neutral-300 mx-3" />
             <div className="flex items-center gap-2">
               <span>تعداد نمایش</span>
@@ -317,13 +322,13 @@ const Table = forwardRef(function <TData>(
               </div>
             </div>
             <div className="w-0.5 h-full bg-neutral-300 mx-3" />
-            <div className="flex items-center">
-              <i
-                className="icon-setting-4 text-body-icon-lg cursor-pointer"
-                onClick={() => setShowColumnSidebar(true)}
-              />
+            <div className="flex items-center gap-2">
+              <span>تعداد نتایج:</span>
+              <span>{rowCount}</span>
             </div>
+            <div />
           </div>
+          <div className="flex items-center gap-3">{actionBar?.()}</div>
         </div>
         <div
           className={`w-full main-table ${isBigScreen && 'max-h-[calc(100%-60px)] overflow-y-auto'}  px-2 my-2 relative`}

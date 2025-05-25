@@ -10,8 +10,8 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "^2.5.0",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
@@ -25,6 +25,11 @@
     "@netlify/classnames-template-literals": "^1.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "react-hook-form": "^7.52.1",
+    "react-multi-date-picker": "^4.5.2",
+    "react-date-object": "^2.1.9",
+    "@tanstack/react-table": "^8.21.2",
+    "framer-motion": "^12.6.5"
   }
 }

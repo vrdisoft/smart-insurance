@@ -1,4 +1,4 @@
-import { cn } from '@repo/ui/src/lib/utils'
+import { cn } from '../../lib/utils'
 import { memo } from 'react'
 
 import { DOTS, usePagination } from './usePagination'

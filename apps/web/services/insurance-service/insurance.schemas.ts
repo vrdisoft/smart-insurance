@@ -26,3 +26,17 @@ export type Visibility = {
   condition: string
   value: string
 }
+
+export type InsuranceFormsSubmissions = {
+  columns: string[]
+  data: UsersApplications[]
+}
+
+export type UsersApplications = {
+  id: number
+  'Full Name': string
+  Age: number
+  Gender: string
+  'Insurance Type': string
+  City: string
+}
