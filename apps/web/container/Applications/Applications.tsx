@@ -32,9 +32,7 @@ export const Applications = () => {
     const search = filters[0]?.value as string
     if (filters[0]?.value) {
       const lower = search.toLowerCase()
-      filtered = filtered.filter(row =>
-        Object.values(row).some(val => typeof val === 'string' && val.toLowerCase().includes(lower)),
-      )
+      filtered = filtered.filter(row => Object.values(row).some(val => val?.toString()?.toLowerCase().includes(lower)))
     }
 
     // Sorting
@@ -69,7 +67,7 @@ export const Applications = () => {
   }
   return (
     <section>
-      <div className="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow">
+      <div className="max-w-6xl mx-auto p-2 md:p-6 bg-white dark:bg-gray-800 rounded shadow">
         <Table<UsersApplications>
           tableId="usersApplications"
           columns={columnConfig}
@@ -78,10 +76,10 @@ export const Applications = () => {
           loadData={loadData}
           ref={tableRef}
           actionBar={() => (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 max-sm:w-full">
               <Input
                 placeholder="Search "
-                className="w-96"
+                className="w-full md:w-96"
                 onChange={e => {
                   const searchValue = e.target.value
                   tableRef.current?.setFilters([{ id: 'name', value: searchValue }])

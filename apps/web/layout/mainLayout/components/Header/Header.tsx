@@ -52,14 +52,15 @@ export const Header = () => {
       {/* Mobile Menu */}
       {menuOpen && (
         <nav className="md:hidden p-4 space-y-4 bg-white dark:bg-gray-800 shadow-md fixed top-16 w-full z-30">
-          {['Home', 'New Application', 'Applications', 'Profile'].map(name => (
-            <a
-              key={name}
-              href="#"
+          {data.map(item => (
+            <Link
+              key={item.name}
+              href={item.url}
               className={`block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 pb-1 `}
+              onClick={() => setMenuOpen(!menuOpen)}
             >
-              {name}
-            </a>
+              {item.name}
+            </Link>
           ))}
         </nav>
       )}

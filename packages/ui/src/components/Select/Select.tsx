@@ -28,7 +28,7 @@ export const Select: React.FC<SelectProps> = ({
   value = '',
   onChange,
   onSearch,
-  placeholder = '',
+  placeholder = 'Select an option',
   className = '',
   onBlur,
   labelRequired,
@@ -96,7 +96,7 @@ export const Select: React.FC<SelectProps> = ({
         </button>
 
         {isOpen && (
-          <div className="absolute mt-1 w-full rounded-lg shadow-lg bg-white border border-gray-200 z-50">
+          <div className="absolute mt-1 w-full rounded-lg shadow-lg bg-white dark:bg-gray-700 border border-gray-200 z-50">
             <div className="relative">
               <input
                 type="text"
@@ -121,7 +121,7 @@ export const Select: React.FC<SelectProps> = ({
                 filteredOptions.map(opt => (
                   <li
                     key={opt.value}
-                    className="px-4 py-2 hover:bg-blue-50 text-sm text-left text-gray-700 cursor-pointer"
+                    className="px-4 py-2 hover:bg-blue-50 text-sm text-left text-gray-700 dark:text-white dark:hover:text-gray-700 cursor-pointer"
                     onClick={() => {
                       onChange(opt.value)
                       setIsOpen(false)

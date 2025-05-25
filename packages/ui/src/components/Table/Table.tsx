@@ -292,7 +292,7 @@ const Table = forwardRef(function <TData>(
     >
       <div className="h-2" />
       <div className={`${isBigScreen && 'h-[calc(100%-60px)]'} `}>
-        <div className="flex justify-between px-2">
+        <div className="flex flex-col gap-4 md:flex-row justify-between px-2">
           <div className="flex items-center gap-3">{actionBar?.()}</div>
           <div className="flex pl-2">
             <div className="flex items-center gap-2">
@@ -309,7 +309,7 @@ const Table = forwardRef(function <TData>(
                   value={pageSize}
                   onChange={e => {
                     setPageSize(Number(e.target.value))
-                    setPageIndex(0)
+                    setPageIndex(1)
                   }}
                 />
               </div>

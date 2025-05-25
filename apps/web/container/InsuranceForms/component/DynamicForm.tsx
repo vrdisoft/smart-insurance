@@ -20,48 +20,45 @@ const buildYupSchema = (fields: FormFieldType[]): yup.AnyObjectSchema => {
 
       if (field.type === 'group') {
         flattenFields(field.fields)
-      } else {
-        let validator: any = yup.string()
-        if (field.type === 'date') {
-          validator = yup.date().typeError('Invalid date')
-        }
-        if (field.type === 'checkbox') {
-          validator = yup.array().typeError('Invalid data type for checkbox')
-        }
-
-        if (field.type === 'number') {
-          validator = yup.number().typeError('Must be a number')
-          if (field.validation?.min !== undefined) {
-            validator = validator.min(field.validation.min, `Minimum value is ${field.validation.min}`)
-          }
-          if (field.validation?.max !== undefined) {
-            validator = validator.max(field.validation.max, `Maximum value is ${field.validation.max}`)
-          }
-        }
-
-        if (field.validation?.pattern) {
-          validator = validator.matches(new RegExp(field.validation.pattern), 'Invalid format')
-        }
-        if (field.required) {
-          if (!field.visibility) {
-            validator = validator.required('This field is required')
-          } else {
-            validator = validator.when(field.visibility.dependsOn, {
-              is: (val: any) => {
-                return val == field?.visibility?.value && field?.visibility?.condition === 'equals'
-              },
-              then: (schema: any) => schema.required('This field is required'),
-            })
-          }
-        }
-
-        shape[key] = validator
+        return
       }
+
+      let validator: any = yup.string()
+
+      if (field.type === 'date') {
+        validator = yup.date().typeError('Invalid date')
+      }
+      if (field.type === 'checkbox') {
+        validator = yup.array().typeError('Invalid data type for checkbox')
+      }
+      if (field.type === 'number') {
+        validator = yup.number().typeError('Must be a number')
+        if (field.validation?.min !== undefined) {
+          validator = validator.min(field.validation.min, `Minimum value is ${field.validation.min}`)
+        }
+        if (field.validation?.max !== undefined) {
+          validator = validator.max(field.validation.max, `Maximum value is ${field.validation.max}`)
+        }
+      }
+      if (field.validation?.pattern) {
+        validator = validator.matches(new RegExp(field.validation.pattern), 'Invalid format')
+      }
+      if (field.required) {
+        if (!field.visibility) {
+          validator = validator.required('This field is required')
+        } else {
+          validator = validator.when(field.visibility.dependsOn, {
+            is: (val: any) => val == field?.visibility?.value && field?.visibility?.condition === 'equals',
+            then: (schema: any) => schema.required('This field is required'),
+          })
+        }
+      }
+
+      shape[key] = validator
     })
   }
 
   flattenFields(fields)
-
   return yup.object().shape(shape)
 }
 
@@ -78,15 +75,15 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
     control,
     watch,
     formState: { errors },
+    reset,
   } = formProvider
 
-  const onSubmit = (data: any) => {
-    postInsuranceFormsSubmit({ data }).then(response => {
-      if (response.status === 'success') {
-        toast.success(response.message, { duration: 6000, className: 'top-20' })
-        formProvider.reset({})
-      }
-    })
+  const onSubmit = async (data: any) => {
+    const response = await postInsuranceFormsSubmit({ data })
+    if (response.status === 'success') {
+      toast.success(response.message, { duration: 6000, className: 'top-20' })
+      reset({})
+    }
   }
 
   const allValues = watch()
@@ -98,20 +95,14 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
         className="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow"
       >
         <h1 className="text-2xl font-bold mb-6">{schema.title}</h1>
-        <div className="flex w-full flex-wrap ">
+        <div className="flex w-full flex-wrap">
           {schema.fields.map(field =>
             field.type === 'group' ? (
               <div className="min-w-full" key={field.id}>
-                <FieldGroup
-                  group={field}
-                  control={control}
-                  allValues={allValues}
-                  errors={errors}
-                  //groupId={field.id}
-                />
+                <FieldGroup group={field} control={control} allValues={allValues} errors={errors} />
               </div>
             ) : (
-              <div className="min-w-1/2 px-2" key={field.id}>
+              <div className="min-w-full md:min-w-1/2 px-2" key={field.id}>
                 <FormField field={field} control={control} allValues={allValues} errors={errors?.[field.id]} />
               </div>
             ),

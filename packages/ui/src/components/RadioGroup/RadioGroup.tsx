@@ -52,6 +52,6 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         </label>
       ))}
     </div>
-    {error && <div className={`md:absolute block h-4 text-red-500 mt-2 mr-2 text-body-xxs`}>{error ? error : ''}</div>}
+    {error && <div className={`md:absolute block h-4 text-red-500  mr-2 text-body-xxs`}>{error ? error : ''}</div>}
   </div>
 )
