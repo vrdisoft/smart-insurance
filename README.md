@@ -39,11 +39,15 @@ A modern and modular monorepo insurance form web application built with **Next.j
 
 ```bash
 pnpm install
-
+```
+```bash
 pnpm dev
-
+```
+```bash
 pnpm build
-
+```
+```bash
 pnpm start
+```
 
 

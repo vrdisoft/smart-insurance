@@ -10,7 +10,10 @@
     "lint:fix": "turbo lint:fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky || true",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "test": "turbo run test",
+    "test:web": "turbo run test --filter=web",
+    "test:ui": "turbo run test --filter=ui"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -28,7 +31,5 @@
     "apps/*",
     "packages/*"
   ],
-  "dependencies": {
-    
-  }
+  "dependencies": {}
 }
