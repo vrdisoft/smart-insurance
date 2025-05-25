@@ -7,6 +7,7 @@ export type ServerTableRef<TData> = {
   addNewRow: () => void
   rowEditIds: string[]
   addRowId: string
+  columnFilters: ColumnFiltersState
   updateData: (rowIndex: number, columnId: string, value: unknown) => void
   updateSubData: (rowIndex: number, subIndex: number, columnId: string, value: unknown, subRowsName: string) => void
   cancelEdit: (rowId: string) => void

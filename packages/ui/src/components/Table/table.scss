@@ -85,3 +85,26 @@
     }
   }
 }
+
+.dark {
+  .main-table {
+    thead th {
+      background-color: #4e4e99 !important;
+      color: #fff !important;
+    }
+    tbody tr {
+      background-color: #5c706b !important;
+      td {
+        color: #fff !important;
+      }
+    }
+  }
+}
+
+i {
+  width: 1em;
+  height: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

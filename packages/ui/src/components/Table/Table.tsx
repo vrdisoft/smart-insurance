@@ -70,7 +70,7 @@ const Table = forwardRef(function <TData>(
   const COLUMN_VISIBILITY_KEY = `column-visibility-${tableId}`
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [pageIndex, setPageIndex] = useState(0)
+  const [pageIndex, setPageIndex] = useState(1)
   const [pageSize, setPageSize] = useState(pageSizeOptions?.[0] ?? 10)
   const [rowSelection, setRowSelection] = useState({})
   const [rowEditIds, setRowEditIds] = useState<string[]>([])
@@ -136,8 +136,8 @@ const Table = forwardRef(function <TData>(
     getRowCanExpand,
     onPaginationChange: updater => {
       const next = typeof updater === 'function' ? updater({ pageIndex, pageSize }) : updater
-      setPageIndex(next.pageIndex)
-      setPageSize(next.pageSize)
+      //setPageIndex(next.pageIndex)
+      //setPageSize(next.pageSize)
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -181,12 +181,6 @@ const Table = forwardRef(function <TData>(
             return row
           }),
         )
-
-        /*
-         * If (!rowEditIds.includes(rowIndex.toString())) {
-         *   setRowEditIds(prev => [...prev, rowIndex.toString()])
-         * }
-         */
       },
     },
   })
@@ -216,6 +210,7 @@ const Table = forwardRef(function <TData>(
     },
     rowEditIds,
     addRowId,
+    columnFilters,
     updateData: (rowIndex: number, columnId: string, value: unknown) => {
       table.options.meta?.updateData?.(rowIndex, columnId, value)
     },
@@ -270,7 +265,7 @@ const Table = forwardRef(function <TData>(
     if (tableContainerRef.current) {
       const distanceFromTop = tableContainerRef.current.getBoundingClientRect().top
       if (isBigScreen && fixHeight) {
-        setTableHeight(`calc(100dvh - ${distanceFromTop + 24}px)`)
+        setTableHeight(`calc(100dvh - ${distanceFromTop + 60}px)`)
       } else {
         setTableHeight('')
       }
@@ -298,20 +293,18 @@ const Table = forwardRef(function <TData>(
       <div className="h-2" />
       <div className={`${isBigScreen && 'h-[calc(100%-60px)]'} `}>
         <div className="flex justify-between px-2">
+          <div className="flex items-center gap-3">{actionBar?.()}</div>
           <div className="flex pl-2">
-            <div className="flex items-center">
-              <i
-                className="icon-setting-4 text-body-icon-lg cursor-pointer"
-                onClick={() => setShowColumnSidebar(true)}
-              />
+            <div className="flex items-center gap-2">
+              <span>Total:</span>
+              <span>{rowCount}</span>
             </div>
-
             <div className="w-0.5 h-full bg-neutral-300 mx-3" />
             <div className="flex items-center gap-2">
-              <span>تعداد نمایش</span>
+              <span>Row View </span>
               <div className=" w-28">
                 <Dropdown
-                  options={pageSizeOptions?.map(size => ({ label: ` ${size} ردیف`, value: size }))}
+                  options={pageSizeOptions?.map(size => ({ label: ` ${size} Row`, value: size }))}
                   hasArrow
                   value={pageSize}
                   onChange={e => {
@@ -322,13 +315,14 @@ const Table = forwardRef(function <TData>(
               </div>
             </div>
             <div className="w-0.5 h-full bg-neutral-300 mx-3" />
-            <div className="flex items-center gap-2">
-              <span>تعداد نتایج:</span>
-              <span>{rowCount}</span>
+            <div className="flex items-center">
+              <i
+                className="icon-setting-4 text-body-icon-lg cursor-pointer"
+                onClick={() => setShowColumnSidebar(true)}
+              />
             </div>
             <div />
           </div>
-          <div className="flex items-center gap-3">{actionBar?.()}</div>
         </div>
         <div
           className={`w-full main-table ${isBigScreen && 'max-h-[calc(100%-60px)] overflow-y-auto'}  px-2 my-2 relative`}
@@ -416,7 +410,7 @@ const Table = forwardRef(function <TData>(
       {/* Pagination */}
       <div className="flex flex-row justify-center gap-4 pt-2">
         <Pagination
-          currentPage={pageIndex + 1}
+          currentPage={pageIndex}
           pageSize={pageSize ?? 20}
           siblingCount={1}
           totalCount={rowCount ?? 0}

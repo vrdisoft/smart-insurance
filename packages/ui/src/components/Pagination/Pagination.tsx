@@ -36,15 +36,15 @@ export const PaginationComponent = (props: {
     <ul className={cn('flex list-none', { className })}>
       <li
         className={cn(
-          'text-body-md flex items-center max-sm:justify-end w-10 h-10 border-primary-500 text-primary-500 cursor-pointer ml-0 md:ml-10',
+          'text-body-md flex items-center max-sm:justify-end w-10 h-10 border-blue-500 text-blue-500 cursor-pointer ml-0 md:mr-10',
           {
-            'pointer-events-none  border-neutral-500  text-neutral-500 cursor-default': currentPage === 1,
+            'pointer-events-none  border-gray-500  text-gray-500 cursor-default': currentPage === 1,
           },
         )}
         onClick={onPrevious}
       >
         <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 ">
-          <i className="icon-arrow-left rotate-180 w-3 h-3 text-[12px] before:!font-bold" />
+          <i className="icon-arrow-left  w-3 h-3 text-[12px] before:!font-bold" />
         </div>
       </li>
       {paginationRange?.map((pageNumber, index) => {
@@ -60,9 +60,9 @@ export const PaginationComponent = (props: {
           <li
             key={index}
             className={cn(
-              'text-body-md flex items-center justify-center w-10 h-10 cursor-pointer hover:bg-primary-100 hover:text-white hover:rounded-full mx-px',
+              'text-body-md flex items-center justify-center w-10 h-10 cursor-pointer hover:bg-blue-100 hover:text-white hover:rounded-full mx-px',
               {
-                'rounded-full  text-white bg-primary-500 cursor-default': pageNumber === currentPage,
+                'rounded-full  text-white bg-blue-500 cursor-default': pageNumber === currentPage,
               },
             )}
             onClick={() => onPageChange?.(Number(pageNumber))}
@@ -73,15 +73,15 @@ export const PaginationComponent = (props: {
       })}
       <li
         className={cn(
-          'text-body-md flex items-center w-10 h-10 border-primary-500 text-primary-500 cursor-pointer mr-0 md:mr-10',
+          'text-body-md flex items-center w-10 h-10 border-blue-500 text-blue-500 cursor-pointer mr-0 md:ml-10',
           {
-            'pointer-events-none  border-neutral-500  text-neutral-500 cursor-default': currentPage === lastPage,
+            'pointer-events-none  border-gray-500  text-gray-500 cursor-default': currentPage === lastPage,
           },
         )}
         onClick={onNext}
       >
-        <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-primary-500 ">
-          <i className="icon-arrow-left w-4 h-4 text-primary-500 text-[12px] before:!font-bold" />
+        <div className={`flex items-center justify-center w-6 h-6 rounded-full border-2  `}>
+          <i className="icon-arrow-left rotate-180 w-4 h-4 text-blue-500 text-[12px] before:!font-bold" />
         </div>
       </li>
     </ul>

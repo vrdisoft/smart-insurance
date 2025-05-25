@@ -4,13 +4,13 @@ import { useGetApiInsuranceFormsSubmissions } from '../../services/insurance-ser
 import { ColumnWithMeta, LoadFn, ServerTableRef } from '@repo/ui/src/components/Table/type'
 import { UsersApplications } from '../../services/insurance-service/insurance.schemas'
 import { useEffect, useRef, useState } from 'react'
+import { ColumnSort } from '@tanstack/react-table'
 
 export const Applications = () => {
   const { data: formsSubmissions, isLoading } = useGetApiInsuranceFormsSubmissions()
   console.log('Applications data:', formsSubmissions)
   const tableRef = useRef<ServerTableRef<UsersApplications>>(null)
   const [data, setData] = useState<UsersApplications[]>([])
-  const [pageIndex, setPageIndex] = useState(0)
   const [rowCount, setRowCount] = useState(0)
 
   const columnConfig: ColumnWithMeta<UsersApplications>[] =
@@ -22,32 +22,41 @@ export const Applications = () => {
     })) || []
 
   useEffect(() => {
-    setData(formsSubmissions?.data ?? [])
-    setRowCount((formsSubmissions?.data?.length ?? 0) + 1)
+    setRowCount(formsSubmissions?.data?.length ?? 0)
   }, [formsSubmissions?.data])
-  useEffect(() => {
-    console.log('Applications data updated:', data)
-  }, [data])
 
-  const loadData: LoadFn = async ({ pageIndex, pageSize, sorting }) => {
-    const filterEntries = Object.entries({}).filter(([, val]) => !!val)
+  const loadData: LoadFn = async ({ pageIndex, pageSize, sorting, filters }) => {
+    let filtered = formsSubmissions?.data ?? []
 
-    const customFilters = filterEntries.map(([id, value]) => ({ id, value }))
+    // Search filter (by name or insurance type)
+    const search = filters[0]?.value as string
+    if (filters[0]?.value) {
+      const lower = search.toLowerCase()
+      filtered = filtered.filter(row =>
+        Object.values(row).some(val => typeof val === 'string' && val.toLowerCase().includes(lower)),
+      )
+    }
 
-    const filterString = customFilters.map(f => `${f.id}:${f.value}`).join(',')
+    // Sorting
+    if (sorting && sorting.length > 0) {
+      const { id, desc } = sorting[0] as ColumnSort
+      filtered = [...filtered].sort((a, b) => {
+        if (a[id as keyof UsersApplications] < b[id as keyof UsersApplications]) return desc ? 1 : -1
+        if (a[id as keyof UsersApplications] > b[id as keyof UsersApplications]) return desc ? -1 : 1
+        return 0
+      })
+    }
 
-    const params = new URLSearchParams({
-      page: (pageIndex + 1).toString(),
-      limit: pageSize.toString(),
-      sortBy: sorting[0]?.id || '',
-      sortOrder: sorting[0]?.desc ? 'desc' : 'asc',
-      filter: filterString,
-    })
+    // Pagination
+    const start = (pageIndex - 1) * pageSize
+    const paged = filtered.slice(start, start + pageSize)
 
-    // const res = await fetch(`/api/users?${params}`)
-    // const json = await res.json()
-    // setData(json.data)
-    // setRowCount(json.total)
+    if (search?.length > 0) {
+      setRowCount(filtered.length)
+    } else {
+      setRowCount(formsSubmissions?.data?.length ?? 0)
+    }
+    setData(paged)
   }
 
   if (isLoading) {
@@ -71,15 +80,17 @@ export const Applications = () => {
           actionBar={() => (
             <div className="flex items-center gap-2">
               <Input
-                placeholder="Search by name or email"
-                className="w-64"
+                placeholder="Search "
+                className="w-96"
                 onChange={e => {
                   const searchValue = e.target.value
                   tableRef.current?.setFilters([{ id: 'name', value: searchValue }])
                 }}
+                value={(tableRef.current?.columnFilters?.[0]?.value as string) || ''}
               />
             </div>
           )}
+          pageSizeOptions={[2, 10, 20, 50, 100]}
         />
       </div>
     </section>

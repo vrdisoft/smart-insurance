@@ -39,7 +39,7 @@ const Dropdown = ({ label, labelRequired, hasArrow, options, onChange, error, va
       )}
       <div className={cn(`border border-neutral-200 rounded-lg ${error ? 'border-error-500' : ''}`)}>
         <select
-          className={`flex justify-between items-center gap-[2px] pr-4 pl-2 rounded-lg w-full focus:outline-none text-neutral-700 border border-l-8 border-white bg-white h-11 md:h-12 focus:bg-white text-right text-body-sm-1 ${
+          className={`flex justify-between items-center gap-[2px] pr-4 pl-2 rounded-lg w-full focus:outline-none text-neutral-700 border border-l-8 border-white bg-white h-11 md:h-12 focus:bg-white text-body-sm-1 ${
             !hasArrow && 'py-2 appearance-none'
           }`}
           onChange={e => {

@@ -49,14 +49,20 @@ export const ColumnSidebar = <TData,>({
     <AnimatePresence>
       <motion.div
         ref={ref}
-        initial={{ x: '-100%', opacity: 0 }}
+        initial={{ x: '100%', opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        exit={{ x: '100%', opacity: 0 }}
+        exit={{ x: '-100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="absolute top-[85px] left-0 w-64 h-[calc(100%-150px)] bg-gradient-to-b to-neutral-50 from-white border-neutral-200 border shadow-xl z-50 p-4 rounded-r-2xl"
+        className="
+                  absolute top-[85px] right-0 w-64 h-[calc(100%-150px)]
+                  bg-gradient-to-b to-neutral-50 from-white
+                  dark:from-gray-900 dark:to-gray-800
+                  border border-neutral-200 dark:border-gray-700
+                  shadow-xl z-50 p-4 rounded-l-2xl
+                  "
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="font-bold text-lg text-neutral--700">تنظیمات ستون‌ها</h3>
+          <h3 className="font-bold text-lg text-neutral--700">Column settings</h3>
           <i
             onClick={onClose}
             className="icon-reject text-body-icon-lg before:!font-bold text-neutral-600 hover:text-neutral-900 transition-colors duration-200 cursor-pointer"
@@ -66,7 +72,7 @@ export const ColumnSidebar = <TData,>({
           <ul className="space-y-3  ">
             {allColumns.map(col =>
               col.id ? (
-                <li key={col.id} className="flex items-center gap-2 text-sm text-neutral-700">
+                <li key={col.id} className="flex items-center gap-2 text-sm ">
                   <input
                     type="checkbox"
                     id={col.id}
